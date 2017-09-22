@@ -3,12 +3,16 @@ var inert = require('inert');
 var mongoose = require('mongoose');
 var routes = require('./routes');
 var auth = require('hapi-auth-cookie');
+var corsHeaders = require('hapi-cors-headers')
+
 
 var server = new hapi.Server();
 server.connection({
     port: process.env.PORT || 8000,
-    routes: {cors: true}
+    routes: {cors: {origin:['*']}}
 });
+
+server.ext('onPreResponse', corsHeaders)
 
 mongoose.connect('mongodb://admin:admin@ds133331.mlab.com:33331/uxexamen2');
 
